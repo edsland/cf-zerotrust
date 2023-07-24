@@ -1,0 +1,24 @@
+version: '3.1'
+services:
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+      - "8443:443"
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: Cloudflare123
+    command: server --console-address ":9001" /data
+    
+volumes:
+  minio_data:
